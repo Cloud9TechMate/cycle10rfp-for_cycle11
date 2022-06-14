@@ -14,3 +14,10 @@ model judges {
   PHONE              String? @db.VarChar(50)
   DEPARTMENT         String? @db.VarChar(50)
 }
+
+model court {
+  COURT    String  @id(map: "PK__court__CF297BCA96565955") @db.VarChar(500)
+  BUILDING String? @db.VarChar(50)
+  ROOM     String? @db.VarChar(20)
+  HOURS    String? @db.VarChar(10)
+}
