@@ -4,6 +4,6 @@ import prisma from "../../lib/prisma";
 
 export default async function handle(req, res) {
   const judges = await prisma.judges.findMany();
-  // console.log("judges:", judges);
+  console.log("judges:", judges);
   res.json(judges);
 }
