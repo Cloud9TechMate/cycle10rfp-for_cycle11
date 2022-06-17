@@ -2,7 +2,8 @@ import React from 'react';
 // import Router from './Router';
 
 export default function Card(props) {
-    console.log(props.images);
+    // console.log(props);
+    // console.log(props.images);
     let newClassName = `color_bg ${props.alt}`
     let bg_img = `url(${props.images})`
     let { title, old_price, newPrice, rupess, exp_date } = props

@@ -1,15 +1,17 @@
 import '../styles/globals.css'
 import Card from "../pages/card";
-// import Judges from '.';
+// import Test from "./api/court";
+
 
 
 function MyApp({ Component, pageProps }) {
   console.log("component:",Component);
-  // console.log("pageProps", pageProps);
+  console.log("pageProps", pageProps);
   // console.table(pageProps[0]);
   return (
 
     <div>
+      {/* <Test /> */}
       <div>
         <Component {...pageProps} />
       </div>
@@ -40,6 +42,7 @@ function MyApp({ Component, pageProps }) {
             alt="county"
             
           />
+
         </div>
 		</div>
 
