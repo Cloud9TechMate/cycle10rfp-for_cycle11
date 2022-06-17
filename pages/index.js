@@ -8,7 +8,7 @@ export const getServerSideProps = async() => {
 };
 
 export const getServerSideProps1 = async() => {
-    const res = await fetch("http://localhost:3000/api/judges");
+    const res = await fetch("http://localhost:3000/api/court");
     const court = await res.json();
     // console.log(court);
     return {
@@ -16,9 +16,9 @@ export const getServerSideProps1 = async() => {
     };
 }
 
-export default function Judges({Judges}) {
-    console.table(Judges);
-    // console.table(court);
+export default function Judges({judges, court}) {
+    console.table(judges);
+    console.table(court);
 
     return (
 

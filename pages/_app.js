@@ -5,8 +5,8 @@ import Card from "../pages/card";
 
 
 function MyApp({ Component, pageProps }) {
-  console.log("component:",Component);
-  console.log("pageProps", pageProps);
+  // console.log("component:",Component);
+  // console.log("pageProps", pageProps);
   // console.table(pageProps[0]);
   return (
 

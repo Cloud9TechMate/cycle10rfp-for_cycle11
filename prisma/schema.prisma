@@ -7,17 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model court {
+  COURT    String  @id(map: "PK__court__CF297BCA96565955") @db.VarChar(500)
+  BUILDING String? @db.VarChar(50)
+  ROOM     String? @db.VarChar(20)
+  HOURS    String? @db.VarChar(40)
+}
+
 model judges {
   JUDGE              String  @id(map: "PK_judges") @db.VarChar(50)
   DEPUTY_COURT_CLERK String? @map("DEPUTY COURT CLERK") @db.VarChar(50)
   ROOM               String? @db.VarChar(50)
   PHONE              String? @db.VarChar(50)
   DEPARTMENT         String? @db.VarChar(50)
-}
-
-model court {
-  COURT    String  @id(map: "PK__court__CF297BCA96565955") @db.VarChar(500)
-  BUILDING String? @db.VarChar(50)
-  ROOM     String? @db.VarChar(20)
-  HOURS    String? @db.VarChar(40)
 }
