@@ -1,49 +1,46 @@
+import Card from "./card";
+import Link from "next/link";
 
-export const getServerSideProps = async() => {
-    const res = await fetch("http://localhost:3000/api/judges");
-    const judges = await res.json();
-    return {
-        props: {judges},
-    };
-};
 
-export const getServerSideProps1 = async() => {
-    const res = await fetch("http://localhost:3000/api/court");
-    const court = await res.json();
-    // console.log(court);
-    return {
-        props: {court},
-    };
-}
 
-export default function Judges({judges, court}) {
-    console.table(judges);
+export default function Court({court}) {
+    // console.table(judges);
     console.table(court);
 
     return (
 
-        <div>
-        </div>
-        // <div>
-            
-        //     {judges.map((p) =>{
-        //         return (
-        //             <div key = {p.JUDGE} style ={{display: "flex"}}>
-        //                 {/* <h1>{p.JUDGE} {p.ROOM}</h1> */}
+        <div className="container">
+			<div className="row">
+			<Card
+				title = {<Link href = "http://localhost:3000/judgesPage">Courthouse</Link>}
+				// title={<a href = "http://localhost:3000/api/judges">Courthouse Offices</a>}
+				images="images/courthouse.png"
+				alt="courthouse"
+				
+				/>
+			<Card
+				//"Job Opportunities"
+				title={<a href="https://county.milwaukee.gov/EN/Human-Resources">Job Opportunities</a>}
+				images="../images/Job-Free-PNG.png"
+				alt="Jobs"
+				// link = "https://county.milwaukee.gov/EN/Human-Resources"
+				/>
+			<Card
+				title={<a href="https://county.milwaukee.gov/EN/News--Events/Events">Events</a>}
+				images="../images/EVENTS.png"
+				alt="events"
 
-        //                 <ul>
-        //                     <li>{p.JUDGE}</li>
-        //                     <li>{p.DEPUTY_COURT_CLERK}</li>
-        //                     <li>{p.DEPARTMENT }</li>
-        //                     <li>{p.ROOM}</li>
-        //                     <li>{p.PHONE}</li>
-        //                 </ul> 
+			/>
+			<Card
+				title="County Services"
+				images="../images/MilwaukeeCountyLogo.png"
+				alt="county"
+				
+			/>
 
-        //             </div>
-        //         )
-        //     })}
-            
-		//</div>		
+			</div>
+		</div>            
+		
     )
 }
 
