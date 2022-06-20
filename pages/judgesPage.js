@@ -1,3 +1,8 @@
+import React, {useMemo} from "react";
+import { useTable } from "react-table";
+import { COLUMNS } from "../components/judgesColumns";
+import styles from '../styles/table.module.css';
+
 export const getServerSideProps = async() => {
     const res = await fetch("http://localhost:3000/api/judgesApi");
     const judges = await res.json();
@@ -7,38 +12,59 @@ export const getServerSideProps = async() => {
 };
 
 export default function Judges({judges}) {
-    console.log(judges)
-    return(
-        <div>
-            
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>COURT</th>
-                            <th>BUILDING</th>
-                            <th>ROOM</th>
-                        </tr>
-                    </thead>
-                </table>
-            
-            {judges.map((p) =>{
-                return (
-                    <div key = {p.JUDGE} style ={{display: "flex"}}>
-                        <p>{console.table(judges)}</p>
-                        {/* <ul>
-                            <li>{p.JUDGE}</li>
-                            <li>{p.DEPUTY_COURT_CLERK}</li>
-                            <li>{p.DEPARTMENT }</li>
-                            <li>{p.ROOM}</li>
-                            <li>{p.PHONE}</li>
-                        </ul>  */}
+    // console.log(judges)
+    const columns = useMemo(() => COLUMNS, []); 
+    console.log(columns);
+    const data = useMemo (() => judges, []);
+    console.log(data);
 
-                    </div>
+    //CREATE A TABLE INSTANCE
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+    }    = useTable({//useTable hook.. We pass in an object as argument 
+        // columns: COLUMNS,//we specify two properties, columns and rows
+        // data: MOCK_DATA
+
+        columns,//shorthand 
+        data
+    })
+
+    return(
+        <div className={styles.table}>
+            <table style={{width: "100%"}} {...getTableProps()}>
+        <thead>
+            {headerGroups.map((headerGroup) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column) => (
+                        <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                    ))}
+                </tr>    
+            ))}
+            <tr style={{}}>
+                <th style={{}}></th>
+            </tr>
+        </thead>
+        <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+                prepareRow(row)
+                return (
+                    <tr {...row.getRowProps()}>
+                        {row.cells.map((cell) => {
+                            return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                        })}
+                    </tr>
                 )
             })}
-            </div>
-            
+            <tr>
+                <td style={{}}></td>
+            </tr>
+        </tbody>
+    </table>
 		</div>
     )
 }; 
+

@@ -1,14 +1,12 @@
 import Card from "./card";
 import Link from "next/link";
-
+// import '../styles/Home.module.css'
 
 
 export default function Court({court}) {
     // console.table(judges);
-    console.table(court);
-
+    // console.table(court);
     return (
-
         <div className="container">
 			<div className="row">
 			<Card
@@ -20,31 +18,25 @@ export default function Court({court}) {
 				/>
 			<Card
 				//"Job Opportunities"
-				title={<a href="https://county.milwaukee.gov/EN/Human-Resources">Job Opportunities</a>}
+				title={<Link href="https://county.milwaukee.gov/EN/Human-Resources">Job Opportunities</Link>}
 				images="../images/Job-Free-PNG.png"
 				alt="Jobs"
 				// link = "https://county.milwaukee.gov/EN/Human-Resources"
 				/>
 			<Card
-				title={<a href="https://county.milwaukee.gov/EN/News--Events/Events">Events</a>}
+				title={<Link href="https://county.milwaukee.gov/EN/News--Events/Events">Events</Link>}
 				images="../images/EVENTS.png"
 				alt="events"
-
 			/>
 			<Card
-				title="County Services"
+				title={<Link href="http://localhost:3000/courtPage">COUNTY SERVICES</Link>}
 				images="../images/MilwaukeeCountyLogo.png"
 				alt="county"
 				
 			/>
-
 			</div>
 		</div>            
 		
     )
 }
-
-// small commentfdferd
-//sdfdfs
-//dhfeiufehifeiuf
 
