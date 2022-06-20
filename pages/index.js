@@ -1,4 +1,4 @@
-import Card from "./card";
+import Card from "../components/card";
 import Link from "next/link";
 // import '../styles/Home.module.css'
 
