@@ -1,21 +1,29 @@
 export const COLUMNS = [
     {
-        Header: "COURT",
+        Header: "Full_Name",
         accessor: "COURT"
     },
 
     {
-        Header: "BUILDING",
+        Header: "Ge EmployeeID",
         accessor: "BUILDING"
     },
 
     {
-        Header: "ROOM",
+        Header: "Email",
         accessor: "ROOM"
     },
 
     {
-        Header: "HOURS",
+        Header: "Schedule",
         accessor: "HOURS"
-    }
+    },
+    {
+        Header: "Test",
+        accessor: "test"
+    },
+    {
+        Header: "Test1",
+        accessor: "test2"
+    },
 ];

@@ -18,19 +18,12 @@ export default function Court ({court}) {
     const data = useMemo(() => court, []);
 
     //CREATE A TABLE INSTANCE
-    const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    }    = useTable({//useTable hook.. We pass in an object as argument 
+    //useTable hook.. We pass in an object as argument 
     // columns: COLUMNS,//we specify two properties, columns and rows
     // data: MOCK_DATA
-
-    columns,//shorthand 
-    data
-    });
+    
+    const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow,} = useTable({columns, data}); ///this object is in shorthand
+    console.log(headerGroups);
     
     return(
         <div className={styles.table}>
