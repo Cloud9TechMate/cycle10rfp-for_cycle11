@@ -3,6 +3,7 @@ import {useTable} from "react-table";
 import { COLUMNS } from "../components/courtColumns";
 import styles from '../styles/table.module.css';
 
+
 export const getServerSideProps = async() => {
     const res = await fetch("http://localhost:3000/api/courtApi");
     const court = await res.json();
@@ -23,16 +24,18 @@ export default function Court ({court}) {
     // data: MOCK_DATA
     
     const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow,} = useTable({columns, data}); ///this object is in shorthand
-    console.log(headerGroups);
+    // console.log(headerGroups);
+    // console.log(rows[0].id);
+    console.log(rows)
     
-    return(
+    return(///TODO: fixed the error with the keys, but, need to make them unique keys.
         <div className={styles.table}>
             <table style={{width: "100%"}} {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
+                        <tr key={1} {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                                <th key={column.id} {...column.getHeaderProps()}>{column.render("Header")}</th>
                             ))}
                         </tr>    
                     ))}
@@ -44,9 +47,9 @@ export default function Court ({court}) {
                     {rows.map((row) => {
                         prepareRow(row)
                         return (
-                            <tr {...row.getRowProps()}>
+                            <tr key={row.id} {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
-                                    return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                                    return <td key={4} {...cell.getCellProps()}>{cell.render("Cell")}</td>
                                 })}
                             </tr>
                         )
