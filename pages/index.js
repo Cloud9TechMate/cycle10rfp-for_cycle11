@@ -6,9 +6,28 @@ import styles from "../styles/forFormInput.module.css";
 
 import ForFormInput from './forFormInput';
 import FormInput from "../components/formInput";
+import {useRouter} from "next/router";
+// import { getServerSideProps } from "../pages/courtPage";
+// import { getRedirectStatus } from "next/dist/lib/load-custom-routes";
+// import {a} from "../pages/courtPage";
+// import prisma1 from "../lib/prisma1";
+// import handle from "../pages/api/courtApi"
 
 
-export default function Court() {
+// const x = handle();
+// console.log(x);
+
+export const getServerSideProps = async() => {
+		const res = await fetch("http://localhost:3000/api/courtApi");
+		const court = await res.json();
+		// console.log(court);
+		return {
+			props: {court},
+		};
+	}
+
+	
+export default function Court(court) {
 
 	const [values, setValues] = useState({
 		/// since we use useState hook here, its going to rerender our component each time the state is changed. Its not a 
@@ -25,10 +44,10 @@ export default function Court() {
 			id:1,
 			name:"username",
 			type:"text",
-			placeholder:"Username",
-			errorMessage:"Username should be 3-16 characters and should not include any special characters!",
-			label:"Username",
-			pattern:"^[A-Za-z0-9]{3,16}$", /// remember the invalid in css
+			placeholder:"Full Name",
+			errorMessage:"Full Name should be 3-16 characters and should not include any special characters!",
+			label:"Full Name",
+			pattern:"^[A-Za-z0-9 ]{3,16}$", /// remember the invalid in css
 			required: true,
 		},
 		{
@@ -70,11 +89,28 @@ export default function Court() {
 		
 	];
 
+	const router = useRouter(); ///for handleSubmit
+
+	const myData = court.court;
+	console.log(court.court)
+	for(let item of myData) {
+		console.log(item.COURT);
+	};
+
+
 	function handleSubmit(e) {
 		e.preventDefault();
+		for(let item of myData) {
+			console.log(item);
+			if(values.username === item.COURT && values.email === item.ROOM && values.password === item.BUILDING) {
+				router.push("/dateRangePage")
+
+			}
+		};
 	};
 
 	const onChange = (e) => {
+		
 		console.log(e);
 		setValues({...values, [e.target.name]: e.target.value});
 	};
@@ -91,22 +127,18 @@ export default function Court() {
 				{/* {<Link href="http://localhost:3000/forFormInput"><button>Register</button></Link>} */}
 			</div>
 			<div className={styles.app}>
-				<form className={styles.forFormInput} onSubmit={handleSubmit}>
-					<h1 className={styles.register}>LogIn</h1>
-					{/* {inputs.map(input => 
-						<FormInput 
-							key={input.id} {...input} 
-							value={values[input.name]}
-							onChange={onChange}
-						/>
-					)} */}
-				{/* <FormInput name="username" type="text" placeholder="Username" label="Username" /> */}
+				<form onSubmit={handleSubmit} >
+					<h1 className={styles.register} >LogIn</h1>
+					<div className={styles.imgcontainer}></div>
+					<div>
 
-					<FormInput name="username" type="text" placeholder="Username" label="Username" value={values[inputs.name]} onChange={onChange} />
-					<FormInput {...inputs[1]}/>
-					<FormInput {...inputs[3]} />
-					<button className={styles.forFormInputButton}>Submit</button>
-					
+						{/* <FormInput name="username" type="text" placeholder="Username" label="Username" value={values[inputs.name]} onChange={onChange} /> */}
+						<FormInput {...inputs[0]} onChange={onChange} />
+						<FormInput {...inputs[1]} onChange={onChange} />
+						<FormInput {...inputs[3]} onChange={onChange} />
+						<button className={styles.forFormInputButton}>Submit</button>
+						{/* <Link href="http://localhost:3000/dateRangePage"><button className={styles.forFormInputButton}>Submit</button></Link> */}
+					</div>
 				</form>
 			</div>
 		</div>

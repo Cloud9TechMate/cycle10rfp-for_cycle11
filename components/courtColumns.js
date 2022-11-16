@@ -5,7 +5,7 @@ export const COLUMNS = [
     },
 
     {
-        Header: "Ge EmployeeID",
+        Header: "SSO",
         accessor: "BUILDING"
     },
 
@@ -19,11 +19,8 @@ export const COLUMNS = [
         accessor: "HOURS"
     },
     {
-        Header: "Test",
+        Header: "Password",
         accessor: "test"
     },
-    {
-        Header: "Test1",
-        accessor: "test2"
-    },
+    
 ];
