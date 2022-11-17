@@ -27,7 +27,7 @@ export const getServerSideProps = async() => {
 	}
 
 	
-export default function Court(court) {
+export default function Court(court) { /// passing in the props from the function above^
 
 	const [values, setValues] = useState({
 		/// since we use useState hook here, its going to rerender our component each time the state is changed. Its not a 
@@ -37,6 +37,7 @@ export default function Court(court) {
 		birthDay:"",
 		password:"",
 		confirmPassword:"",
+		sso:"",
 	}); 
 
 	const inputs = [ /// these inputs are for the props
@@ -86,6 +87,17 @@ export default function Court(court) {
 			pattern:values.password, /// we want the same password which is now stored in the values use state
 			required: true,
 		},
+		{
+			id:6,
+			name: "sso",
+			type: "text",
+			placeholder:"SSO",
+			errorMessage:"SSO number is incorrect",
+			label:"SSO",
+			pattern: '^[0-9]+$', /// only numbers
+			required: true,
+
+		}
 		
 	];
 
@@ -97,20 +109,57 @@ export default function Court(court) {
 		console.log(item.COURT);
 	};
 
+	// let text = '';
 
+for (let i = 0; i < 10; i++) {
+	if (i !== 3) {
+		console.log(i)
+		continue;
+	}else {
+		console.log(true);
+	}
+}
+// console.log(text);
+
+
+
+	/// auth
 	function handleSubmit(e) {
 		e.preventDefault();
-		for(let item of myData) {
-			console.log(item);
-			if(values.username === item.COURT && values.email === item.ROOM && values.password === item.BUILDING) {
-				router.push("/dateRangePage")
-
+		for(let i = 0; i < myData.length; i++) {
+			console.log(i);
+			console.log(myData[i]);
+			console.log(myData[i].BUILDING);
+			
+			if(values.sso === myData[i].BUILDING && values.email === myData[i].ROOM && values.password === myData[i].PASS) {
+				return router.push("/dateRangePage");
+				// break;
 			}
+			// else{
+
+			// 	return alert("Your credentials do not match our database!");
+			// 	// break;
+			// 	// window.location.reload(true);
+				
+			// };
 		};
+		
+		// for(let item of myData) {
+		// 	// console.log(item);
+		// 	if(values.sso === item.BUILDING && values.email === item.ROOM && values.password === item.PASS) {
+		// 		router.push("/dateRangePage");
+		// 		// break;
+		// 	}
+		// 	else{
+		// 		alert("Your credentials do not match our database!");
+		// 		break;
+		// 		// window.location.reload(true);
+		// 	}
+		// };
 	};
 
 	const onChange = (e) => {
-		
+
 		console.log(e);
 		setValues({...values, [e.target.name]: e.target.value});
 	};
@@ -133,7 +182,8 @@ export default function Court(court) {
 					<div>
 
 						{/* <FormInput name="username" type="text" placeholder="Username" label="Username" value={values[inputs.name]} onChange={onChange} /> */}
-						<FormInput {...inputs[0]} onChange={onChange} />
+						<FormInput {...inputs[5]} onChange={onChange}/>
+						{/* <FormInput {...inputs[0]} onChange={onChange} /> */}
 						<FormInput {...inputs[1]} onChange={onChange} />
 						<FormInput {...inputs[3]} onChange={onChange} />
 						<button className={styles.forFormInputButton}>Submit</button>

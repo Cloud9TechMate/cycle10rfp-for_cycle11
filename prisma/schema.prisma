@@ -12,6 +12,7 @@ model court {
   BUILDING String? @db.VarChar(50)
   ROOM     String? @db.VarChar(20)
   HOURS    String? @db.VarChar(40)
+  PASS     String? @db.VarChar(20)
 }
 
 model judges {

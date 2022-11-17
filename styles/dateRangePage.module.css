@@ -1,8 +1,12 @@
 .img{
     width: 400px;
-    height: 800px;
+    height: 600px;
     background-image: url(../public/images/ge_floor_plans.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+.gmailCalendar{
+    border: 'solid 1px #777';
 }

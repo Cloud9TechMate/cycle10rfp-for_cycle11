@@ -20,7 +20,7 @@ export const COLUMNS = [
     },
     {
         Header: "Password",
-        accessor: "test"
+        accessor: "PASS"
     },
     
 ];
