@@ -5,8 +5,20 @@ import React, { useState } from "react";
 import FormInput from "../components/formInput";
 import styles from "../styles/forFormInput.module.css";
 import {useNavigate} from "react-router-dom";
+import { useRouter } from "next/router";
 
-const ForFormInput = () => {
+export const getServerSideProps = async() => {
+	const res = await fetch("http://localhost:3000/api/courtApi");
+	const court = await res.json();
+	// console.log(court);
+	return {
+		props: {court},
+	};
+}
+
+const ForFormInput = (court) => {
+	console.log(court);
+
 	const [values, setValues] = useState({
 		/// since we use useState hook here, its going to rerender our component each time the state is changed. Its not a
 		/// problem. but there is a solution. instead of using useState, we can use useRef hook
@@ -15,10 +27,21 @@ const ForFormInput = () => {
 		birthDay: "",
 		password: "",
 		confirmPassword: "",
+		sso:"",
 	});
 
 	const inputs = [
 		/// these inputs are for the props
+		{
+			id:6,
+			name: "sso",
+			type: "text",
+			placeholder:"SSO",
+			errorMessage:"SSO number is incorrect",
+			label:"SSO",
+			pattern: '^[0-9]+$', /// only numbers
+			required: true,
+		},
 		{
 			id: 1,
 			name: "username",
@@ -66,12 +89,26 @@ const ForFormInput = () => {
 			pattern: values.password, /// we want the same password which is now stored in the values use state
 			required: true,
 		},
-		
 	];
 
+	console.log(court);
+	const myData = court.court;
+	console.log(myData[0].COURT);
+
+
+
+	///TODO: when the form is filled, the data from the form is pushed to the database
 	function handleSubmit(e) {
 		e.preventDefault();
-		console.log("test")
+		const myData = court.court;
+		
+		let specificObject;
+
+		for(let item of myData) {
+			// if(item.BUILDING === values.sso && item.COURT === values.username && item.ROOM === values.email && item.PASS === values.password && item.) {
+
+			// }
+		};
 	}
 
 	const onChange = (e) => {
@@ -84,15 +121,7 @@ const ForFormInput = () => {
 		<div className={styles.app}>
 			<form 
 				className={styles.forFormInput}
-				onSubmit={handleSubmit}
-				
-				// onSubmit={(e) => {
-				// 	e.preventDefault();
-				// 	console.log("test");
-				// 	///just checking to see if this link works
-				// 	<Link href="http://localhost:3000/courtPage"></Link>
-				// }}
-				>
+				onSubmit={handleSubmit}>
 
 				<h1 className={styles.register}>Register</h1>
 				<div className={styles.imgcontainer}></div>

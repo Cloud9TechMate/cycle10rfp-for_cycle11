@@ -4,18 +4,10 @@ import Link from "next/link";
 // import  styles from '../styles/index.module.css'
 import styles from "../styles/forFormInput.module.css";
 
-import ForFormInput from './forFormInput';
+import ForFormInput from '../pages/forFormInput';
 import FormInput from "../components/formInput";
 import {useRouter} from "next/router";
-// import { getServerSideProps } from "../pages/courtPage";
-// import { getRedirectStatus } from "next/dist/lib/load-custom-routes";
-// import {a} from "../pages/courtPage";
-// import prisma1 from "../lib/prisma1";
-// import handle from "../pages/api/courtApi"
-
-
-// const x = handle();
-// console.log(x);
+import { useNavigate } from "react-router-dom";
 
 export const getServerSideProps = async() => {
 		const res = await fetch("http://localhost:3000/api/courtApi");
@@ -30,8 +22,6 @@ export const getServerSideProps = async() => {
 export default function Court(court) { /// passing in the props from the function above^
 
 	const [values, setValues] = useState({
-		/// since we use useState hook here, its going to rerender our component each time the state is changed. Its not a 
-		/// problem. but there is a solution. instead of using useState, we can use useRef hook
 		username:"",
 		email:"",
 		birthDay:"",
@@ -96,71 +86,39 @@ export default function Court(court) { /// passing in the props from the functio
 			label:"SSO",
 			pattern: '^[0-9]+$', /// only numbers
 			required: true,
-
 		}
-		
 	];
 
+	/// Auth /// TODO: I had a problem here where i did: for(let item of myData) > if > else {alert()}. The alert kept repeating, because I was looping thru the array. 
 	const router = useRouter(); ///for handleSubmit
-
-	const myData = court.court;
-	console.log(court.court)
-	for(let item of myData) {
-		console.log(item.COURT);
-	};
-
-	// let text = '';
-
-for (let i = 0; i < 10; i++) {
-	if (i !== 3) {
-		console.log(i)
-		continue;
-	}else {
-		console.log(true);
-	}
-}
-// console.log(text);
-
-
-
-	/// auth
+	
 	function handleSubmit(e) {
+		const myData = court.court;
 		e.preventDefault();
-		for(let i = 0; i < myData.length; i++) {
-			console.log(i);
-			console.log(myData[i]);
-			console.log(myData[i].BUILDING);
-			
-			if(values.sso === myData[i].BUILDING && values.email === myData[i].ROOM && values.password === myData[i].PASS) {
-				return router.push("/dateRangePage");
-				// break;
-			}
-			// else{
+		
+		let specificObject; /// when the comparisons are true this variable will be assigned that specific object that
+		/// the comparisons were ture in.
 
-			// 	return alert("Your credentials do not match our database!");
-			// 	// break;
-			// 	// window.location.reload(true);
-				
-			// };
+		for(let item of myData) {
+			// console.log(item);
+			if(item.BUILDING === values.sso && item.ROOM === values.email && item.PASS === values.password) {
+				specificObject = item;
+			}
 		};
 		
-		// for(let item of myData) {
-		// 	// console.log(item);
-		// 	if(values.sso === item.BUILDING && values.email === item.ROOM && values.password === item.PASS) {
-		// 		router.push("/dateRangePage");
-		// 		// break;
-		// 	}
-		// 	else{
-		// 		alert("Your credentials do not match our database!");
-		// 		break;
-		// 		// window.location.reload(true);
-		// 	}
-		// };
+		console.log(specificObject); /// I have the specific object so I do not have to itterate thru an array of objects
+		
+		if(specificObject == undefined) {/// the values were not correct and specificObject is undefined
+			alert("Your login information is not correct. Please try again.");
+		}
+		else{ /// the values are correct, specificObject is now has a value of the object we want to iterate thru. we no longer will have to
+			///thru a whole array of objects.
+			router.push('/dateRangePage');
+		}
 	};
 
 	const onChange = (e) => {
-
-		console.log(e);
+		// console.log(e);
 		setValues({...values, [e.target.name]: e.target.value});
 	};
 	console.log(values);
@@ -169,60 +127,23 @@ for (let i = 0; i < 10; i++) {
 	return ( 
 		<div>
 			<h1>GE Desk Schedular</h1>
-			{/* <button>{<Link href="http://localhost:3000/forFormInput"></Link>}</button> */}
 			<div>
 				<h3>If you have not registered yet, please do so here</h3>
 				{<Link href="http://localhost:3000/forFormInput"><button>Register</button></Link>}
-				{/* {<Link href="http://localhost:3000/forFormInput"><button>Register</button></Link>} */}
 			</div>
 			<div className={styles.app}>
 				<form onSubmit={handleSubmit} >
 					<h1 className={styles.register} >LogIn</h1>
 					<div className={styles.imgcontainer}></div>
 					<div>
-
-						{/* <FormInput name="username" type="text" placeholder="Username" label="Username" value={values[inputs.name]} onChange={onChange} /> */}
 						<FormInput {...inputs[5]} onChange={onChange}/>
-						{/* <FormInput {...inputs[0]} onChange={onChange} /> */}
 						<FormInput {...inputs[1]} onChange={onChange} />
 						<FormInput {...inputs[3]} onChange={onChange} />
 						<button className={styles.forFormInputButton}>Submit</button>
-						{/* <Link href="http://localhost:3000/dateRangePage"><button className={styles.forFormInputButton}>Submit</button></Link> */}
 					</div>
 				</form>
 			</div>
 		</div>
-
-     // <div cLassName="container">
-		// 	<div className="row">
-		// 	<Card
-		// 		title = {<Link href = "http://localhost:3000/judgesPage">Courthouse</Link>}
-		// 		// title={<a href = "http://localhost:3000/api/judges">Courthouse Offices</a>}
-		// 		images="images/courthouse.png"
-		// 		alt="courthouse"
-				
-		// 		/>
-		// 	<Card
-		// 		//"Job Opportunities"
-		// 		title={<Link href="https://county.milwaukee.gov/EN/Human-Resources">Job Opportunities</Link>}
-		// 		images="../images/Job-Free-PNG.png"
-		// 		alt="Jobs"
-		// 		// link = "https://county.milwaukee.gov/EN/Human-Resources"
-		// 		/>
-		// 	<Card
-		// 		title={<Link href="https://county.milwaukee.gov/EN/News--Events/Events">Events</Link>}
-		// 		images="../images/EVENTS.png"
-		// 		alt="events"
-		// 	/>
-		// 	<Card
-		// 		title={<Link href="http://localhost:3000/courtPage">COUNTY SERVICES</Link>}
-		// 		images="../images/MilwaukeeCountyLogo.png"
-		// 		alt="county"
-				
-		// 	/>
-		// 	</div>
-		// </div>            
-		
     )
 }
 

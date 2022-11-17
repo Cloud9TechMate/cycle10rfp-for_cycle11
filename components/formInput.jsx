@@ -1,19 +1,6 @@
 import React, {useState} from "react";
 import styles from "../styles/formInput.module.css";
 
-// const FormInput = (props) => { /// for useRef
-
-//     console.log(props)
-//     return(
-//         <div className="formInput">
-//             <input name={props.name} placeholder={props.placeholder}/>
-//             {/* <input ref={props.refer} placeholder={props.placeholder}/> */} {/*just for the userName */}
-//             {/* <input placeholder={props.placeholder} onChange={e=>props.setUserName(e.target.value)} /> */} {/*for the useState */}
-//         </div>
-//     );
-// }
-
-// export default FormInput;
 
 const FormInput = (props) => {              
     // console.log(values)
