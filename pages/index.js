@@ -118,14 +118,14 @@ export default function Court(court) { /// passing in the props from the functio
 	};
 
 	const onChange = (e) => {
-		// console.log(e);
+		console.log(e);
 		setValues({...values, [e.target.name]: e.target.value});
 	};
 	console.log(values);
 
 
 	return ( 
-		<div>
+		<div>	
 			<h1>GE Desk Schedular</h1>
 			<div>
 				<h3>If you have not registered yet, please do so here</h3>

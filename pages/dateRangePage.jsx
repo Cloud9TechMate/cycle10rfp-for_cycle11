@@ -1,20 +1,76 @@
-import { withCoalescedInvoke } from 'next/dist/lib/coalesced-function';
-import React from 'react';
-import styles from '../styles/dateRangePage.module.css'
-
+// import { withCoalescedInvoke } from 'next/dist/lib/coalesced-function';
+import React, {useState} from 'react';
+import styles from '../styles/dateRangePage.module.css';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import setHours from "date-fns/setHours";
+import setMinutes from "date-fns/setMinutes";
 
 const DateRangePage = () => {
-    const date = new Date();
-    console.log(date);
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    let yesterday = `${year}-${month}-${day} `;
 
-    console.log(yesterday);
     
-    // const gmailCalendar = 
-    // width="40%" height="600px" frameborder="0" scrolling="no"
+        // const [startDate, setStartDate] = useState();
+        
+        // const isWeekday = (date) => {
+        //     console.log(date);
+        //     const day = date.getDay();
+        //     return day !== 0 && day !== 6;
+        // };
+
+        // console.log(startDate);
+        
+        // // function onChange(date) {
+        // //     console.log(date);
+        // //     // setStartDate(date);
+        // // }
+
+        // const onChange = (date) => {
+        //     console.log(date);
+        //     // setStartDate(date);
+        // }
+
+        // return (
+        //     <div>
+
+        //     <DatePicker
+        //     selected={startDate}
+        //     onChange={onChange}
+        //     filterDate={isWeekday}
+        //     placeholderText="Select a weekday"
+        //     />
+        //     </div>
+        // );
+    
+    // const [values, setValues] = useState(new Date());
+    // console.log(startDate);
+    const [values, setValues] = useState(
+        {
+            date:"",
+            noWeekEnds: function (date) {
+                // console.log(date);
+                const day = date.getDay();
+                return day !== 0 && day !== 6;
+            },
+            // time: setHours(setMinutes(new Date(), 0), 9),
+
+        }
+    );
+        console.log({...values});
+
+        const filterPassedTime = (time) => {
+            console.log(time);
+            const currentDate = new Date();
+            const selectedDate = new Date(time);
+            return currentDate.getTime() < selectedDate.getTime();
+        };
+
+    const onChange = (e) => {
+        console.log(e);
+        setValues({...values, date: e,}); /// spread the values, key: value pair that you would like to change
+        console.log({...values})
+	};
+    
+
     return (
         
         <div>
@@ -23,13 +79,28 @@ const DateRangePage = () => {
                 <div className={styles.img} ></div>
                 <div>
                     <h2>Schedule a time</h2>
-                    <input type="date" name="begin" min="2022-11-16" />
+                    <DatePicker
+                        placeholderText='Select a Date and Time'
+                        style={{color:"red"}} 
+                        selected={values.date} 
+                        minDate={new Date()} 
+                        showTimeSelect
+                        filterTime={filterPassedTime}
+                        excludeTimes={[
+                            setHours(setMinutes(new Date(), 0), 19),
+                            setHours(setMinutes(new Date(), 0), 20),
+                            setHours(setMinutes(new Date(), 0), 21),
+                            setHours(setMinutes(new Date(), 0), 22),
+                            setHours(setMinutes(new Date(), 30), 22),
+                            setHours(setMinutes(new Date(), 0), 23),
+                            setHours(setMinutes(new Date(), 30), 23),
+                            setHours(setMinutes(new Date(), 0), 24),
+                            setHours(setMinutes(new Date(), 30), 24),
+                        ]}
 
-                    {/* <input type="date" name="begin" min={yesterday.toString()} /> */}
-
-                    <input type="time" min="06:00:00" max="18:00:00"/>
-                    {/* <input type="month" /> */}
-                    
+                        onChange={onChange}
+                        filterDate={values.noWeekEnds}/>
+                        
                     <button type="submit">Book</button>
                 <div>
                     <h2>Cancel</h2>
