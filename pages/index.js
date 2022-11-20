@@ -8,6 +8,9 @@ import ForFormInput from '../pages/forFormInput';
 import FormInput from "../components/formInput";
 import {useRouter} from "next/router";
 import { useNavigate } from "react-router-dom";
+import DateRangePage from "./dateRangePage";
+import { grabUser } from "./dateRangePage";
+
 
 export const getServerSideProps = async() => {
 		const res = await fetch("http://localhost:3000/api/courtApi");
@@ -17,6 +20,7 @@ export const getServerSideProps = async() => {
 			props: {court},
 		};
 	}
+
 
 	
 export default function Court(court) { /// passing in the props from the function above^
@@ -114,6 +118,7 @@ export default function Court(court) { /// passing in the props from the functio
 		else{ /// the values are correct, specificObject is now has a value of the object we want to iterate thru. we no longer will have to
 			///thru a whole array of objects.
 			router.push('/dateRangePage');
+			grabUser(values); ///pass the values to the dateRangePage
 		}
 	};
 
@@ -139,6 +144,7 @@ export default function Court(court) { /// passing in the props from the functio
 						<FormInput {...inputs[5]} onChange={onChange}/>
 						<FormInput {...inputs[1]} onChange={onChange} />
 						<FormInput {...inputs[3]} onChange={onChange} />
+						{/* <DateRangePage court={court} /> */}
 						<button className={styles.forFormInputButton}>Submit</button>
 					</div>
 				</form>

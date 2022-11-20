@@ -3,6 +3,7 @@ import {useTable} from "react-table";
 import { COLUMNS } from "../components/courtColumns";
 import styles from '../styles/table.module.css';
 
+
 export const getServerSideProps = async() => {
     const res = await fetch("http://localhost:3000/api/courtApi");
     const court = await res.json();
