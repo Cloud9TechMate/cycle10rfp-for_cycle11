@@ -5,142 +5,114 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
-import Court from './index';
-
-export const grabUser = (item) => {
-    console.log(item);
-}
-grabUser();
+// import TimePicker from "react-time-picker";
 
 const DateRangePage = () => {
-    console.log();
+    const a = new Date();
+    console.log(a.getTime());
     
-    const [values, setValues] = useState( //for 2nd DatePicker
+    const[values, setValues] = useState(
         {
-            date: new Date(),
-            disabled: true,
-            noWeekEnds: function (date) {
-                // console.log(date);
-                const day = date.getDay();
-                return day !== 0 && day !== 6;
-            },
-            // time: setHours(setMinutes(new Date(), 0), 9),
-
+            startDate: new Date(),
         }
-    );
-
+        );
+        
+        /// if startDate = today
+        console.log(values.startDate)
     const filterPassedTime = (time) => {
-        // console.log(time);
-        const currentDate = new Date();
+        console.log(time);
+        const x = new Date();
+        console.log(x);
         const selectedDate = new Date(time);
-        return currentDate.getTime() < selectedDate.getTime();
+        const currentDate = values.startDate;
+        
+        const a = selectedDate.getDay()
+        const b = selectedDate.getMonth();
+        const c = selectedDate.getFullYear();
+        const d = `${a} ${b} ${c}`;
+        const e = x.getDay()
+        const f = x.getMonth();
+        const g = x.getFullYear();
+        
+        const h = `${e} ${f} ${g}`;
+
+        
+        
+        if(d == h) {
+            return currentDate.getTime() < selectedDate.getTime();
+        }else{
+            console.log("false");
+            return currentDate.getTime() > selectedDate.getTime();
+        }
+
     };
 
-    let finalDate;
-    let time;
-    const i = new Date();
-    console.log(i.getHours())
-    console.log(i.getHours() -1);
-    const onChange = (e) => {
-        // console.log(e);
-        setValues({...values, date: e,}); /// spread the values, key: value pair that you would like to change
-        console.log({...values})
-        console.log(values);
-        const date = values.date;
+    const noWeeKEnds = (date) => {
         console.log(date);
-        console.log(typeof date);
-        const dateString = date.toString();
-        console.log(typeof dateString);
-        const dateSplit = dateString.split(" ");
-        console.log(dateSplit);
-        finalDate = `${dateSplit[0]} ${dateSplit[1]} ${dateSplit[2]}, ${dateSplit[3]}`;
-        console.log(finalDate);
-        console.log(typeof finalDate);
-        time = `${dateSplit[4]}`
-        console.log(time);
-        confirmation(finalDate, time);
-        const x = "12"
-        console.log(typeof Number(time));
-        const z = Number(time);
-        console.log(z)
-        const v = new Date();
+        const day = date.getDay();
+        return day !== 0 && day !== 6;
+    };
 
-        console.log(date.getHours(), v.getHours() + 1);
-        if(date.getHours() > v.getHours() + 1) {
-            console.log(true);
-            setValues({...values, disabled: false})
-        }
-        else {
-            console.log(false);
-        }
-	};
-    // let disabled = true;
-    const confirmation = (finalDate, time, disabled) => {
-        // console.log(disabled);
-        // if() {
-
-        // }
-        // return disabled = true;
-        // console.log(finalDate, time);
-        return disabled =false;
-    }
-    // disabled = confirmation()
-
-    /// destructure the date value so I can say if both date and time is true then disabled = false
-    
-    // if(values.date) {
-    //     disabled = false;
-    //     console.log(disabled);
-    // }
-    // else{
-    //     console.log(values.date);
-    // }
-    // console.log(disabled);
-    // console.log(values);
+    const onChange = (e) => {
+        console.log(e)
+        // setValues(e)
+        setValues({...values, startDate: e})
+    };  
 
     return (
-        
         <div>
             <div style={{display: "flex"}}>
-                <iframe style={{border: "solid 1px #777", width:"40%", height:"600px", frameborder: "0", scrolling: "no"}} src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FChicago&showTitle=1&showNav=1&showPrint=0&showCalendars=0&showTz=1&showTabs=1&showDate=1&mode=MONTH&title=GE%20Calendar"></iframe>
+                {/* <iframe style={{border: "solid 1px #777", width:"40%", height:"600px", frameborder: "0", scrolling: "no"}} src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FChicago&showTitle=1&showNav=1&showPrint=0&showCalendars=0&showTz=1&showTabs=1&showDate=1&mode=MONTH&title=GE%20Calendar"></iframe> */}
+                <iframe style={{border: "solid 1px #777", width:"40%", height:"600px", frameborder: "0", scrolling: "no"}} src="https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FChicago&showTabs=1&title=Bookings&src=Y185YjVlMDlkMjYyZTExZjI4ZWFmNTgxZTkxOWVkZWZjNjMzZjUzZjljNjU2N2U1NjI1YWM1YWE4MTNhNDZhZDBlQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20&color=%239E69AF"></iframe>
                 <div className={styles.img} ></div>
                 <div>
-                    {/* <DatePicker /> */}
+                    
+                        <DatePicker 
+                            filterDate={noWeeKEnds} 
+                            selected={values.startDate} 
+                            minDate={new Date} onChange={onChange}
+                            showTimeSelect
+                            filterTime={filterPassedTime}
+                            excludeTimes={[
+                                setHours(setMinutes(new Date(), 30), 17),
+                                setHours(setMinutes(new Date(), 0), 18),
+                                setHours(setMinutes(new Date(), 30), 18),
+                                
+                                setHours(setMinutes(new Date(), 0), 19),
+                                setHours(setMinutes(new Date(), 30), 19),
+                                setHours(setMinutes(new Date(), 0), 20),
+                                setHours(setMinutes(new Date(), 30), 20),
+                                setHours(setMinutes(new Date(), 0), 21),
+                                setHours(setMinutes(new Date(), 30), 21),
+                                setHours(setMinutes(new Date(), 0), 22),
+                                setHours(setMinutes(new Date(), 30), 22),
+                                setHours(setMinutes(new Date(), 0), 23),
+                                setHours(setMinutes(new Date(), 30), 23),
+                                setHours(setMinutes(new Date(), 0), 24),
+                                setHours(setMinutes(new Date(), 30), 24),
+                                setHours(setMinutes(new Date(), 30), 24),
+                                setHours(setMinutes(new Date(), 0), 1),
+                                setHours(setMinutes(new Date(), 30), 1),
+                                setHours(setMinutes(new Date(), 0), 2),
+                                setHours(setMinutes(new Date(), 30), 2),
+                                setHours(setMinutes(new Date(), 0), 3),
+                                setHours(setMinutes(new Date(), 30), 3),
+                                setHours(setMinutes(new Date(), 0), 4),
+                                setHours(setMinutes(new Date(), 30), 4),
+                                setHours(setMinutes(new Date(), 0), 5),
+                                setHours(setMinutes(new Date(), 30), 5),
+                                ]}
+                                />
+                            <button onClick={() => alert("Your appointment has been booked")}>Book</button>
+                            <h2>Cancel</h2>
+                            <button>Cancel if there is something scheduled</button>
                 </div>
-                <div>
-                    <h2>Schedule a time</h2>
-                    <DatePicker
-                        placeholderText='Select a Date and Time'
-                        style={{color:"red"}} 
-                        selected={values.date} 
-                        minDate={new Date()} 
-                        showTimeSelect
-                        filterTime={filterPassedTime}
-                        // timeFormat={}
-                        excludeTimes={[
-                            setHours(setMinutes(new Date(), 0), 19),
-                            setHours(setMinutes(new Date(), 0), 20),
-                            setHours(setMinutes(new Date(), 0), 21),
-                            setHours(setMinutes(new Date(), 0), 22),
-                            setHours(setMinutes(new Date(), 30), 22),
-                            setHours(setMinutes(new Date(), 0), 23),
-                            setHours(setMinutes(new Date(), 30), 23),
-                            setHours(setMinutes(new Date(), 0), 24),
-                            setHours(setMinutes(new Date(), 30), 24),
-                        ]}
-                        onChange={onChange}
-                        filterDate={values.noWeekEnds}/> 
-                        
-                    <button disabled={values.disabled} type="submit">Book</button>
-                </div>
-                <div>
-                    <h2>Cancel</h2>
-                    <button>Cancel if there is something scheduled</button>
-                </div >
+                <div></div >
             </div>
         </div>
-
     );
 }
 
 export default DateRangePage;
+
+
